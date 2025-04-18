@@ -33,11 +33,11 @@ func (c *ConnpassClient) SetConnpassAPIURL(connpassAPIURL string) {
 }
 
 // FetchEvents fetches events from Connpass API for the specified year and month
-func (c *ConnpassClient) FetchEvents(groupSubdomains []string, year, month string) ([]Event, error) {
+func (c *ConnpassClient) FetchEvents(groupSubdomains []string, year, month int) ([]Event, error) {
 	// Build query parameters
 	params := url.Values{}
 	params.Add("subdomain", strings.Join(groupSubdomains, ","))
-	params.Add("ym", year+month)
+	params.Add("ym", fmt.Sprintf("%d%02d", year, month))
 
 	// Build request URL
 	reqURL := c.connpassAPIURL + "events/" + "?" + params.Encode()

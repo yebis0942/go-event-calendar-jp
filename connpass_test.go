@@ -2,6 +2,7 @@ package gojpcal
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -35,8 +36,8 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 
 	tests := map[string]struct {
 		subdomains   []string
-		year         string
-		month        string
+		year         int
+		month        int
 		responseCode int
 		responseBody ConnpassResponse
 		wantErr      bool
@@ -44,8 +45,8 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 	}{
 		"successful fetch": {
 			subdomains:   []string{"golang", "go-tokyo"},
-			year:         "2023",
-			month:        "10",
+			year:         2023,
+			month:        10,
 			responseCode: http.StatusOK,
 			responseBody: ConnpassResponse{
 				ResultsReturned:  2,
@@ -58,8 +59,8 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 		},
 		"empty result": {
 			subdomains:   []string{"nonexistent"},
-			year:         "2023",
-			month:        "10",
+			year:         2023,
+			month:        10,
 			responseCode: http.StatusOK,
 			responseBody: ConnpassResponse{
 				ResultsReturned:  0,
@@ -72,8 +73,8 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 		},
 		"api error": {
 			subdomains:   []string{"golang"},
-			year:         "2023",
-			month:        "10",
+			year:         2023,
+			month:        10,
 			responseCode: http.StatusInternalServerError,
 			wantErr:      true,
 			wantEvents:   nil,
@@ -103,8 +104,8 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 
 				// Check query parameters
 				q := r.URL.Query()
-				if q.Get("ym") != tc.year+tc.month {
-					t.Errorf("Expected ym %s, got %s", tc.year+tc.month, q.Get("ym"))
+				if q.Get("ym") != fmt.Sprintf("%d%02d", tc.year, tc.month) {
+					t.Errorf("Expected ym %s, got %s", fmt.Sprintf("%d%02d", tc.year, tc.month), q.Get("ym"))
 				}
 
 				// Check subdomain parameter

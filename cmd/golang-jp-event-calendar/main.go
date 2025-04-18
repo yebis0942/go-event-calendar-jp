@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 
 	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
 )
@@ -30,8 +31,16 @@ func main() {
 	}
 
 	// Parse year and month
-	year := (*yyyymm)[:4]
-	month := (*yyyymm)[4:]
+	year, err := strconv.Atoi((*yyyymm)[:4])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: invalid year: %v\n", err)
+		os.Exit(1)
+	}
+	month, err := strconv.Atoi((*yyyymm)[4:])
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: invalid month: %v\n", err)
+		os.Exit(1)
+	}
 
 	// Load config
 	config := gojpcal.LoadConfig()
