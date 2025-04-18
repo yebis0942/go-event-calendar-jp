@@ -8,17 +8,39 @@ import (
 	"strings"
 )
 
-const connpassAPIURL = "https://connpass.com/api/v2/events/"
+const connpassAPIURL = "https://connpass.com/api/v2/"
+
+type ConnpassClient struct {
+	apiKey         string
+	httpClient     *http.Client
+	connpassAPIURL string
+}
+
+func NewConnpassClient(apiKey string) *ConnpassClient {
+	return &ConnpassClient{
+		apiKey:         apiKey,
+		httpClient:     http.DefaultClient,
+		connpassAPIURL: connpassAPIURL,
+	}
+}
+
+func (c *ConnpassClient) SetHTTPClient(httpClient *http.Client) {
+	c.httpClient = httpClient
+}
+
+func (c *ConnpassClient) SetConnpassAPIURL(connpassAPIURL string) {
+	c.connpassAPIURL = connpassAPIURL
+}
 
 // FetchEvents fetches events from Connpass API for the specified year and month
-func FetchEvents(apiKey string, groupSubdomains []string, year, month string) ([]Event, error) {
+func (c *ConnpassClient) FetchEvents(groupSubdomains []string, year, month string) ([]Event, error) {
 	// Build query parameters
 	params := url.Values{}
 	params.Add("subdomain", strings.Join(groupSubdomains, ","))
 	params.Add("ym", year+month)
 
 	// Build request URL
-	reqURL := connpassAPIURL + "?" + params.Encode()
+	reqURL := c.connpassAPIURL + "events/" + "?" + params.Encode()
 
 	// Create a new request
 	req, err := http.NewRequest("GET", reqURL, nil)
@@ -27,10 +49,10 @@ func FetchEvents(apiKey string, groupSubdomains []string, year, month string) ([
 	}
 
 	// Add API key header
-	req.Header.Add("X-API-Key", apiKey)
+	req.Header.Add("X-API-Key", c.apiKey)
 
 	// Make HTTP request
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("HTTP request failed: %w", err)
 	}

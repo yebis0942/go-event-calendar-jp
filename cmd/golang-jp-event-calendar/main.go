@@ -37,7 +37,8 @@ func main() {
 	config := gojpcal.LoadConfig()
 
 	// Get events
-	events, err := gojpcal.FetchEvents(apiKey, config.ConnpassGroups, year, month)
+	client := gojpcal.NewConnpassClient(apiKey)
+	events, err := client.FetchEvents(config.ConnpassGroups, year, month)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error fetching events: %v\n", err)
 		os.Exit(1)
