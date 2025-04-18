@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+const (
+	prodID      = "github.com/yebis0942/golang-jp-event-calendar"
+	eventDomain = "golang-jp-event-calendar.yebis0942.workers.dev"
+)
+
 // GenerateICalendar generates an iCalendar (RFC 5545) format string from events
 func GenerateICalendar(events []Event) (string, error) {
 	var sb strings.Builder
@@ -13,7 +18,7 @@ func GenerateICalendar(events []Event) (string, error) {
 	// iCalendar header
 	sb.WriteString("BEGIN:VCALENDAR\r\n")
 	sb.WriteString("VERSION:2.0\r\n")
-	sb.WriteString("PRODID:-//github.com/yebis0942/golang-jp-event-calendar//EN\r\n")
+	sb.WriteString(fmt.Sprintf("PRODID:%s\r\n", prodID))
 	sb.WriteString("CALSCALE:GREGORIAN\r\n")
 	sb.WriteString("METHOD:PUBLISH\r\n")
 	sb.WriteString("X-WR-CALNAME;VALUE=TEXT:Goコミュニティのイベント\r\n")
@@ -23,7 +28,7 @@ func GenerateICalendar(events []Event) (string, error) {
 		sb.WriteString("BEGIN:VEVENT\r\n")
 
 		// Generate a UID for the event
-		uid := fmt.Sprintf("connpass-event-%d@connpass.com", event.ID)
+		uid := fmt.Sprintf("connpass-%d@%s", event.ID, eventDomain)
 		sb.WriteString(fmt.Sprintf("UID:%s\r\n", uid))
 
 		// Format dates according to iCalendar spec
