@@ -8,6 +8,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestConnpassClient_FetchEvents(t *testing.T) {
@@ -92,26 +94,18 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 				isRequestReceived = true
 
 				// Check request method
-				if r.Method != http.MethodGet {
-					t.Errorf("Expected method %s, got %s", http.MethodGet, r.Method)
-				}
+				require.Equal(t, http.MethodGet, r.Method, "Request method doesn't match")
 
 				// Check API key header
 				apiKey := r.Header.Get("X-API-Key")
-				if apiKey != "test-api-key" {
-					t.Errorf("Expected API key %s, got %s", "test-api-key", apiKey)
-				}
+				require.Equal(t, "test-api-key", apiKey, "API key doesn't match")
 
 				// Check query parameters
 				q := r.URL.Query()
-				if q.Get("ym") != fmt.Sprintf("%d%02d", tc.year, tc.month) {
-					t.Errorf("Expected ym %s, got %s", fmt.Sprintf("%d%02d", tc.year, tc.month), q.Get("ym"))
-				}
+				require.Equal(t, fmt.Sprintf("%d%02d", tc.year, tc.month), q.Get("ym"), "Year-month parameter doesn't match")
 
 				// Check subdomain parameter
-				if strings.Join(tc.subdomains, ",") != q.Get("subdomain") {
-					t.Errorf("Expected subdomain %s, got %s", strings.Join(tc.subdomains, ","), q.Get("subdomain"))
-				}
+				require.Equal(t, strings.Join(tc.subdomains, ","), q.Get("subdomain"), "Subdomain parameter doesn't match")
 
 				// Set response status code
 				w.WriteHeader(tc.responseCode)
@@ -133,59 +127,17 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 			// Call the method
 			events, err := client.FetchEvents(tc.subdomains, tc.year, tc.month)
 
-			if !isRequestReceived {
-				t.Fatal("Request was not received by the test server")
-			}
+			require.True(t, isRequestReceived, "Request was not received by the test server")
 
-			// Check results
+			// Check the error
 			if tc.wantErr {
-				if err == nil {
-					t.Error("Expected error but got nil")
-				}
+				require.Error(t, err, "Expected an error but got nil")
 				return
 			}
-			if err != nil {
-				t.Errorf("Expected no error but got: %v", err)
-			}
+			require.NoError(t, err, "Expected no error but got one")
 
-			if len(events) != len(tc.wantEvents) {
-				t.Errorf("Expected %d events, got %d", len(tc.wantEvents), len(events))
-			}
-
-			for i, wantEvent := range tc.wantEvents {
-				if wantEvent.ID != events[i].ID {
-					t.Errorf("Event ID mismatch at index %d: expected %d, got %d", i, wantEvent.ID, events[i].ID)
-				}
-				if wantEvent.Title != events[i].Title {
-					t.Errorf("Event Title mismatch at index %d: expected %s, got %s", i, wantEvent.Title, events[i].Title)
-				}
-				if wantEvent.URL != events[i].URL {
-					t.Errorf("Event URL mismatch at index %d: expected %s, got %s", i, wantEvent.URL, events[i].URL)
-				}
-				if wantEvent.Description != events[i].Description {
-					t.Errorf("Event Description mismatch at index %d", i)
-				}
-				if !wantEvent.StartTime.Equal(events[i].StartTime) {
-					t.Errorf("Event StartTime mismatch at index %d: expected %s, got %s",
-						i, wantEvent.StartTime.Format(time.RFC3339), events[i].StartTime.Format(time.RFC3339))
-				}
-				if !wantEvent.EndTime.Equal(events[i].EndTime) {
-					t.Errorf("Event EndTime mismatch at index %d: expected %s, got %s",
-						i, wantEvent.EndTime.Format(time.RFC3339), events[i].EndTime.Format(time.RFC3339))
-				}
-				if wantEvent.Place != events[i].Place {
-					t.Errorf("Event Place mismatch at index %d: expected %s, got %s", i, wantEvent.Place, events[i].Place)
-				}
-				if wantEvent.Address != events[i].Address {
-					t.Errorf("Event Address mismatch at index %d: expected %s, got %s", i, wantEvent.Address, events[i].Address)
-				}
-				if wantEvent.GroupID != events[i].GroupID {
-					t.Errorf("Event GroupID mismatch at index %d: expected %s, got %s", i, wantEvent.GroupID, events[i].GroupID)
-				}
-				if wantEvent.GroupTitle != events[i].GroupTitle {
-					t.Errorf("Event GroupTitle mismatch at index %d: expected %s, got %s", i, wantEvent.GroupTitle, events[i].GroupTitle)
-				}
-			}
+			// Check the events
+			require.Equal(t, tc.wantEvents, events, "Events don't match")
 		})
 	}
 }
