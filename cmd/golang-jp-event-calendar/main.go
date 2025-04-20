@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
@@ -35,7 +36,7 @@ func main() {
 
 	// Get events
 	client := gojpcal.NewConnpassClient(apiKey)
-	events, err := client.FetchEvents(config.ConnpassGroups, []string{*yyyymm})
+	events, err := client.FetchEvents(context.Background(), config.ConnpassGroups, []string{*yyyymm})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error fetching events: %v\n", err)
 		os.Exit(1)

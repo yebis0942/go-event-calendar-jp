@@ -1,24 +1,23 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
+	"github.com/syumai/workers"
+	"github.com/syumai/workers/cloudflare"
 	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
 )
 
 func main() {
 	// Get API key from environment
-	apiKey := os.Getenv("CONNPASS_API_KEY")
+	apiKey := cloudflare.Getenv("CONNPASS_API_KEY")
 	if apiKey == "" {
 		log.Fatal("CONNPASS_API_KEY environment variable is required")
 	}
-
-	// Initialize the client
-	client := gojpcal.NewConnpassClient(apiKey)
 
 	// Load configuration
 	config := gojpcal.LoadConfig()
@@ -36,8 +35,14 @@ func main() {
 			yearMonths = append(yearMonths, yearMonth)
 		}
 
+		// Initialize the client
+		client := gojpcal.NewConnpassClient(apiKey)
+		client.SetHTTPClient(&http.Client{
+			Transport: gojpcal.NewWorkerTransport(),
+		})
+
 		// Fetch events
-		events, err := client.FetchEvents(config.ConnpassGroups, yearMonths)
+		events, err := client.FetchEvents(context.Background(), config.ConnpassGroups, yearMonths)
 		if err != nil {
 			log.Printf("Error fetching events: %v", err)
 			http.Error(w, "Failed to fetch events", http.StatusInternalServerError)
@@ -59,14 +64,5 @@ func main() {
 		fmt.Fprint(w, calendar)
 	})
 
-	// Start the server
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	log.Printf("Starting server on port %s...", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatalf("Server failed: %v", err)
-	}
+	workers.Serve(nil)
 }

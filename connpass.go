@@ -1,6 +1,7 @@
 package gojpcal
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -19,7 +20,7 @@ type ConnpassClient struct {
 func NewConnpassClient(apiKey string) *ConnpassClient {
 	return &ConnpassClient{
 		apiKey:         apiKey,
-		httpClient:     http.DefaultClient,
+		httpClient:     &http.Client{},
 		connpassAPIURL: connpassAPIURL,
 	}
 }
@@ -33,7 +34,7 @@ func (c *ConnpassClient) SetConnpassAPIURL(connpassAPIURL string) {
 }
 
 // FetchEvents fetches events from Connpass API
-func (c *ConnpassClient) FetchEvents(groupSubdomains, yearMonths []string) ([]Event, error) {
+func (c *ConnpassClient) FetchEvents(ctx context.Context, groupSubdomains, yearMonths []string) ([]Event, error) {
 	// Build query parameters
 	params := url.Values{}
 	params.Add("subdomain", strings.Join(groupSubdomains, ","))
@@ -43,13 +44,15 @@ func (c *ConnpassClient) FetchEvents(groupSubdomains, yearMonths []string) ([]Ev
 	reqURL := c.connpassAPIURL + "events/" + "?" + params.Encode()
 
 	// Create a new request
-	req, err := http.NewRequest("GET", reqURL, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, reqURL, nil)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
-	// Add API key header
-	req.Header.Add("X-API-Key", c.apiKey)
+	// Set API key
+	req.Header.Set("X-API-Key", c.apiKey)
+	// Set User-Agent to avoid 403 Unauthorized
+	req.Header.Set("User-Agent", "golang-jp-event-calendar")
 
 	// Make HTTP request
 	resp, err := c.httpClient.Do(req)

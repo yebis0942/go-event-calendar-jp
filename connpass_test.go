@@ -1,6 +1,7 @@
 package gojpcal
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -120,7 +121,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 			client.SetConnpassAPIURL(server.URL + "/")
 
 			// Call the method
-			events, err := client.FetchEvents(tc.subdomains, tc.yms)
+			events, err := client.FetchEvents(context.Background(), tc.subdomains, tc.yms)
 
 			require.True(t, isRequestReceived, "Request was not received by the test server")
 
