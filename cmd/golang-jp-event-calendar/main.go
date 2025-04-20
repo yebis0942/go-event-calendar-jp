@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 
 	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
@@ -31,24 +30,12 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Parse year and month
-	year, err := strconv.Atoi((*yyyymm)[:4])
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: invalid year: %v\n", err)
-		os.Exit(1)
-	}
-	month, err := strconv.Atoi((*yyyymm)[4:])
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: invalid month: %v\n", err)
-		os.Exit(1)
-	}
-
 	// Load config
 	config := gojpcal.LoadConfig()
 
 	// Get events
 	client := gojpcal.NewConnpassClient(apiKey)
-	events, err := client.FetchEvents(config.ConnpassGroups, year, month)
+	events, err := client.FetchEvents(config.ConnpassGroups, []string{*yyyymm})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error fetching events: %v\n", err)
 		os.Exit(1)

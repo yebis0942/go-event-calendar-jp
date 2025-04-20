@@ -2,7 +2,6 @@ package gojpcal
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -38,8 +37,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 
 	tests := map[string]struct {
 		subdomains   []string
-		year         int
-		month        int
+		yms          []string
 		responseCode int
 		responseBody ConnpassResponse
 		wantErr      bool
@@ -47,8 +45,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 	}{
 		"successful fetch": {
 			subdomains:   []string{"golang", "go-tokyo"},
-			year:         2023,
-			month:        10,
+			yms:          []string{"202310"},
 			responseCode: http.StatusOK,
 			responseBody: ConnpassResponse{
 				ResultsReturned:  2,
@@ -61,8 +58,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 		},
 		"empty result": {
 			subdomains:   []string{"nonexistent"},
-			year:         2023,
-			month:        10,
+			yms:          []string{"202310"},
 			responseCode: http.StatusOK,
 			responseBody: ConnpassResponse{
 				ResultsReturned:  0,
@@ -75,8 +71,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 		},
 		"api error": {
 			subdomains:   []string{"golang"},
-			year:         2023,
-			month:        10,
+			yms:          []string{"202310"},
 			responseCode: http.StatusInternalServerError,
 			wantErr:      true,
 			wantEvents:   nil,
@@ -102,7 +97,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 
 				// Check query parameters
 				q := r.URL.Query()
-				require.Equal(t, fmt.Sprintf("%d%02d", tc.year, tc.month), q.Get("ym"), "Year-month parameter doesn't match")
+				require.Equal(t, strings.Join(tc.yms, ","), q.Get("ym"), "Year-month parameter doesn't match")
 
 				// Check subdomain parameter
 				require.Equal(t, strings.Join(tc.subdomains, ","), q.Get("subdomain"), "Subdomain parameter doesn't match")
@@ -125,7 +120,7 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 			client.SetConnpassAPIURL(server.URL + "/")
 
 			// Call the method
-			events, err := client.FetchEvents(tc.subdomains, tc.year, tc.month)
+			events, err := client.FetchEvents(tc.subdomains, tc.yms)
 
 			require.True(t, isRequestReceived, "Request was not received by the test server")
 
