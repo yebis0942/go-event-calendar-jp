@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
 )
@@ -54,7 +55,7 @@ func main() {
 	}
 
 	// Generate iCalendar
-	ical, err := gojpcal.GenerateICalendar(events)
+	ical, err := gojpcal.GenerateICalendar(events, time.Now())
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error generating iCalendar: %v\n", err)
 		os.Exit(1)

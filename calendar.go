@@ -12,7 +12,7 @@ const (
 )
 
 // GenerateICalendar generates an iCalendar (RFC 5545) format string from events
-func GenerateICalendar(events []Event) (string, error) {
+func GenerateICalendar(events []Event, now time.Time) (string, error) {
 	var sb strings.Builder
 
 	// iCalendar header
@@ -39,8 +39,8 @@ func GenerateICalendar(events []Event) (string, error) {
 		sb.WriteString(fmt.Sprintf("DTEND:%s\r\n", endStr))
 
 		// Add creation timestamp
-		now := time.Now().UTC()
-		sb.WriteString(fmt.Sprintf("DTSTAMP:%s\r\n", formatDateTimeUTC(now)))
+		nowUTC := now.UTC()
+		sb.WriteString(fmt.Sprintf("DTSTAMP:%s\r\n", formatDateTimeUTC(nowUTC)))
 
 		// Event details
 		sb.WriteString(fmt.Sprintf("SUMMARY:%s\r\n", escape(event.Title)))

@@ -22,7 +22,8 @@ func TestGenerateICalendar(t *testing.T) {
 		},
 	}
 
-	got, err := gojpcal.GenerateICalendar(events)
+	now := time.Date(2023, 10, 1, 9, 0, 0, 0, time.UTC)
+	got, err := gojpcal.GenerateICalendar(events, now)
 	require.NoError(t, err)
 
 	want := "BEGIN:VCALENDAR\r\n" +
@@ -35,7 +36,7 @@ func TestGenerateICalendar(t *testing.T) {
 		"UID:connpass-1@golang-jp-event-calendar.yebis0942.workers.dev\r\n" +
 		"DTSTART:20231001T100000Z\r\n" +
 		"DTEND:20231001T120000Z\r\n" +
-		"DTSTAMP:" + time.Now().UTC().Format("20060102T150405Z") + "\r\n" +
+		"DTSTAMP:20231001T090000Z\r\n" +
 		"SUMMARY:Sample Event\r\n" +
 		"DESCRIPTION:This is a sample event.\\n\\nURL: http://example.com\r\n" +
 		"LOCATION:Sample Place\\, 123 Sample Street\r\n" +
