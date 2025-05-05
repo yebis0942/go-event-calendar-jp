@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v4
+    - name: Prepare github.com/syumai/workers for misc/wasm/go_js_wasm_exec
+      run: |
+        go mod download
+        chmod +x $(go list -f "{{.Dir}}" github.com/syumai/workers)/misc/wasm/go_js_wasm_exec
+    - run: make test
