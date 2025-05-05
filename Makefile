@@ -1,0 +1,3 @@
+test:
+	PATH="$$(go list -f "{{.Dir}}" github.com/syumai/workers)/misc/wasm:$$PATH" \
+		GOOS=js GOARCH=wasm go test ./...

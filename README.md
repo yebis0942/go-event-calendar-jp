@@ -18,3 +18,7 @@ connpass上で運営されているGo言語の地域コミュニティのイベ�
 export CONNPASS_API_KEY=...
 go run ./cmd/golang-jp-event-calendar -yyyymm 200601
 ```
+
+### 自動テスト
+
+`make test` を実行してください。
