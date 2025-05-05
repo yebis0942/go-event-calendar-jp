@@ -1,9 +1,9 @@
 {
-	"name": "golang-jp-event-calendar",
+	"name": "go-event-calendar-jp",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"build": "go run github.com/syumai/workers/cmd/workers-assets-gen -mode=go && GOOS=js GOARCH=wasm go build -o ./build/app.wasm ./cmd/golang-jp-event-calendar-server/...",
+		"build": "go run github.com/syumai/workers/cmd/workers-assets-gen -mode=go && GOOS=js GOARCH=wasm go build -o ./build/app.wasm ./cmd/go-event-calendar-jp-server/...",
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev"

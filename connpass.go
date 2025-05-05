@@ -52,7 +52,7 @@ func (c *ConnpassClient) FetchEvents(ctx context.Context, groupSubdomains, yearM
 	// Set API key
 	req.Header.Set("X-API-Key", c.apiKey)
 	// Set User-Agent to avoid 403 Unauthorized
-	req.Header.Set("User-Agent", "golang-jp-event-calendar")
+	req.Header.Set("User-Agent", "go-event-calendar-jp")
 
 	// Make HTTP request
 	resp, err := c.httpClient.Do(req)

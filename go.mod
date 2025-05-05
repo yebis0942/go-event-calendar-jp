@@ -1,4 +1,4 @@
-module github.com/yebis0942/golang-jp-event-calendar
+module github.com/yebis0942/go-event-calendar-jp
 
 go 1.24.2
 

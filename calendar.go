@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	prodID      = "github.com/yebis0942/golang-jp-event-calendar"
-	eventDomain = "golang-jp-event-calendar.yebis0942.workers.dev"
+	prodID      = "github.com/yebis0942/go-event-calendar-jp"
+	eventDomain = "go-event-calendar-jp.yebis0942.workers.dev"
 )
 
 // GenerateICalendar generates an iCalendar (RFC 5545) format string from events

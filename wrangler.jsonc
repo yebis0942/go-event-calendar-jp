@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "golang-jp-event-calendar",
+	"name": "go-event-calendar-jp",
 	"main": "./build/worker.mjs",
 	"compatibility_date": "2025-04-20",
 	"build": {

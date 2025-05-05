@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
+	gojpcal "github.com/yebis0942/go-event-calendar-jp"
 )
 
 func main() {

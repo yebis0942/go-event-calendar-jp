@@ -9,7 +9,7 @@ import (
 
 	"github.com/syumai/workers"
 	"github.com/syumai/workers/cloudflare"
-	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
+	gojpcal "github.com/yebis0942/go-event-calendar-jp"
 )
 
 func main() {

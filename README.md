@@ -1,4 +1,4 @@
-# golang-jp-event-calendar
+# go-event-calendar-jp
 
 connpass上で運営されているGo言語の地域コミュニティのイベント開催情報をまとめます。
 
@@ -8,7 +8,7 @@ connpass上で運営されているGo言語の地域コミュニティのイベ�
 
 ## 開発
 
-### `golang-jp-event-calendar`コマンド
+### `go-event-calendar-jp`コマンド
 
 動作確認用のコマンドです。
 
@@ -16,7 +16,7 @@ connpass上で運営されているGo言語の地域コミュニティのイベ�
 
 ```
 export CONNPASS_API_KEY=...
-go run ./cmd/golang-jp-event-calendar -yyyymm 200601
+go run ./cmd/go-event-calendar-jp -yyyymm 200601
 ```
 
 ### 自動テスト

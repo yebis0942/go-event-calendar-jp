@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	gojpcal "github.com/yebis0942/golang-jp-event-calendar"
+	gojpcal "github.com/yebis0942/go-event-calendar-jp"
 )
 
 func TestGenerateICalendar(t *testing.T) {
@@ -27,12 +27,12 @@ func TestGenerateICalendar(t *testing.T) {
 
 	want := "BEGIN:VCALENDAR\r\n" +
 		"VERSION:2.0\r\n" +
-		"PRODID:github.com/yebis0942/golang-jp-event-calendar\r\n" +
+		"PRODID:github.com/yebis0942/go-event-calendar-jp\r\n" +
 		"CALSCALE:GREGORIAN\r\n" +
 		"METHOD:PUBLISH\r\n" +
 		"X-WR-CALNAME;VALUE=TEXT:Goコミュニティのイベント\r\n" +
 		"BEGIN:VEVENT\r\n" +
-		"UID:connpass-1@golang-jp-event-calendar.yebis0942.workers.dev\r\n" +
+		"UID:connpass-1@go-event-calendar-jp.yebis0942.workers.dev\r\n" +
 		"DTSTART:20231001T100000Z\r\n" +
 		"DTEND:20231001T120000Z\r\n" +
 		"DTSTAMP:20231001T090000Z\r\n" +
