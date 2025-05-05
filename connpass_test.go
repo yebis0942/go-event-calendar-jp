@@ -16,24 +16,22 @@ func TestConnpassClient_FetchEvents(t *testing.T) {
 	t.Parallel()
 
 	event1 := Event{
-		ID:          12345,
-		Title:       "Go Conference 001",
-		URL:         "https://connpass.com/event/12345/",
-		Description: "A conference for Gophers",
-		StartTime:   time.Date(2023, 10, 15, 10, 0, 0, 0, time.UTC),
-		EndTime:     time.Date(2023, 10, 15, 17, 0, 0, 0, time.UTC),
-		Place:       "Tokyo Conference Center",
-		Address:     "1-2-3 Shibuya, Tokyo",
+		ID:        12345,
+		Title:     "Go Conference 001",
+		URL:       "https://connpass.com/event/12345/",
+		StartTime: time.Date(2023, 10, 15, 10, 0, 0, 0, time.UTC),
+		EndTime:   time.Date(2023, 10, 15, 17, 0, 0, 0, time.UTC),
+		Place:     "Tokyo Conference Center",
+		Address:   "1-2-3 Shibuya, Tokyo",
 	}
 	event2 := Event{
-		ID:          12346,
-		Title:       "Go Meetup 001",
-		URL:         "https://connpass.com/event/12346/",
-		Description: "A monthly Go meetup",
-		StartTime:   time.Date(2023, 10, 20, 19, 0, 0, 0, time.UTC),
-		EndTime:     time.Date(2023, 10, 20, 21, 0, 0, 0, time.UTC),
-		Place:       "Co-working Space",
-		Address:     "4-5-6 Minato, Tokyo",
+		ID:        12346,
+		Title:     "Go Meetup 001",
+		URL:       "https://connpass.com/event/12346/",
+		StartTime: time.Date(2023, 10, 20, 19, 0, 0, 0, time.UTC),
+		EndTime:   time.Date(2023, 10, 20, 21, 0, 0, 0, time.UTC),
+		Place:     "Co-working Space",
+		Address:   "4-5-6 Minato, Tokyo",
 	}
 
 	tests := map[string]struct {

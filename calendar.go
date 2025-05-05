@@ -44,7 +44,7 @@ func GenerateICalendar(events []Event, now time.Time) (string, error) {
 
 		// Event details
 		sb.WriteString(fmt.Sprintf("SUMMARY:%s\r\n", escape(event.Title)))
-		sb.WriteString(fmt.Sprintf("DESCRIPTION:%s\\n\\nURL: %s\r\n", escape(event.Description), escape(event.URL)))
+		sb.WriteString(fmt.Sprintf("DESCRIPTION:%s\r\n", escape(event.URL)))
 
 		if event.Place != "" {
 			location := event.Place

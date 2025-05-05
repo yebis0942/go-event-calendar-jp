@@ -11,14 +11,13 @@ import (
 func TestGenerateICalendar(t *testing.T) {
 	events := []gojpcal.Event{
 		{
-			ID:          1,
-			Title:       "Sample Event",
-			Description: "This is a sample event.",
-			StartTime:   time.Date(2023, 10, 1, 10, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 10, 1, 12, 0, 0, 0, time.UTC),
-			URL:         "http://example.com",
-			Place:       "Sample Place",
-			Address:     "123 Sample Street",
+			ID:        1,
+			Title:     "Sample Event",
+			StartTime: time.Date(2023, 10, 1, 10, 0, 0, 0, time.UTC),
+			EndTime:   time.Date(2023, 10, 1, 12, 0, 0, 0, time.UTC),
+			URL:       "http://example.com",
+			Place:     "Sample Place",
+			Address:   "123 Sample Street",
 		},
 	}
 
@@ -38,7 +37,7 @@ func TestGenerateICalendar(t *testing.T) {
 		"DTEND:20231001T120000Z\r\n" +
 		"DTSTAMP:20231001T090000Z\r\n" +
 		"SUMMARY:Sample Event\r\n" +
-		"DESCRIPTION:This is a sample event.\\n\\nURL: http://example.com\r\n" +
+		"DESCRIPTION:http://example.com\r\n" +
 		"LOCATION:Sample Place\\, 123 Sample Street\r\n" +
 		"URL:http://example.com\r\n" +
 		"END:VEVENT\r\n" +
