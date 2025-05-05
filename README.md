@@ -22,3 +22,8 @@ go run ./cmd/go-event-calendar-jp -yyyymm 200601
 ### 自動テスト
 
 `make test` を実行してください。
+
+## Inspired by
+
+- [golang.jp ブログ](https://blog.golang.jp/)
+- [地域.rbカレンダー](https://sue445.github.io/regional-rb-calendar/)
