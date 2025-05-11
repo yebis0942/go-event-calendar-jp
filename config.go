@@ -13,6 +13,7 @@ func LoadConfig() *Config {
 			"gocon",
 			"golangtokyo",
 			"go-online",
+			"gopherdojo",
 			"gophers-ex",
 			"gospecreading",
 			"gotalk",
