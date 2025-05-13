@@ -39,6 +39,8 @@ func (c *ConnpassClient) FetchEvents(ctx context.Context, groupSubdomains, yearM
 	params := url.Values{}
 	params.Add("subdomain", strings.Join(groupSubdomains, ","))
 	params.Add("ym", strings.Join(yearMonths, ","))
+	params.Add("count", "100")
+	params.Add("order", "2") // Sort by start time (descending)
 
 	// Build request URL
 	reqURL := c.connpassAPIURL + "events/" + "?" + params.Encode()
