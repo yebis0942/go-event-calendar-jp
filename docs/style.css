@@ -1,0 +1,66 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Layout */
+header {
+  padding: 1rem 0;
+  background-color: #f0f4f9;
+}
+
+main {
+  flex: 1;
+  margin: 1rem 0;
+}
+
+footer {
+  padding: 1rem 0;
+  background-color: #f0f4f9;
+  margin-top: auto;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Typography */
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+/* Links */
+footer a {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #495057;
+  text-decoration: underline;
+}
+
+/* Calendar embed */
+.calendar-embed {
+  width: 100%;
+  max-width: 800px;
+}
