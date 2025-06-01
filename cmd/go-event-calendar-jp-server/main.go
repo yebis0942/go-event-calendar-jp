@@ -53,15 +53,8 @@ func main() {
 			Transport: gojpcal.NewWorkerTransport(),
 		})
 
-		// Generate a range of months from 3 months before to 3 months after
-		var yearMonths []string
-		for i := -3; i <= 3; i++ {
-			targetDate := now.AddDate(0, i, 0)
-			yearMonth := fmt.Sprintf("%d%02d", targetDate.Year(), int(targetDate.Month()))
-			yearMonths = append(yearMonths, yearMonth)
-		}
-
 		// Fetch events
+		yearMonths := GetMonthsRange(now.Year(), int(now.Month()))
 		events, err := client.FetchEvents(context.Background(), config.ConnpassGroups, yearMonths)
 		if err != nil {
 			log.Printf("Error fetching events: %v", err)
