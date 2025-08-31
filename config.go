@@ -29,6 +29,7 @@ func LoadConfig() *Config {
 			"tenntenn",
 			"tinygo-keeb",
 			"umedago",
+			"wakayamago",
 			"womenwhogo-tokyo",
 			"yokohama-go-reading",
 		},
