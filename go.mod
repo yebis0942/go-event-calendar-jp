@@ -3,7 +3,7 @@ module github.com/yebis0942/go-event-calendar-jp
 go 1.24.2
 
 require (
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	github.com/syumai/workers v0.30.2
 )
 
